@@ -1,0 +1,16 @@
+{
+  "name": "Kala Beauty Parlour",
+  "short_name": "Kala Beauty",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9f4ef",
+  "theme_color": "#40332f",
+  "description": "Book personalised beauty rituals at Kala Beauty Parlour.",
+  "icons": [
+    {
+      "src": "/kala-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

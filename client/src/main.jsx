@@ -22,6 +22,12 @@ function App() {
   const [bookings, setBookings] = useState([]);
   const [toast, setToast] = useState("");
   const [activeSlide, setActiveSlide] = useState(0);
+  const photoFor = (slot, fallback) => photos.find((photo) => photo.slot === slot)?.image || fallback;
+  const heroSlides = [
+    { src: photoFor("hero-1", "/admin-hero-picture.png"), label: "Glow rituals", detail: "Signature facials" },
+    { src: photoFor("hero-2", "/admin-picture.png"), label: "Soft glam", detail: "Makeup artistry" },
+    { src: photoFor("hero-3", "/admin-hero-picture.png"), label: "Fresh finish", detail: "Skin-first care" }
+  ];
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -83,12 +89,6 @@ function App() {
   };
   const notify = (message) => { setToast(message); setTimeout(() => setToast(""), 3500); };
   if (showLogin) return <Login onSuccess={enter} />;
-  const photoFor = (slot, fallback) => photos.find((photo) => photo.slot === slot)?.image || fallback;
-  const heroSlides = [
-    { src: photoFor("hero-1", "/admin-hero-picture.png"), label: "Glow rituals", detail: "Signature facials" },
-    { src: photoFor("hero-2", "/admin-picture.png"), label: "Soft glam", detail: "Makeup artistry" },
-    { src: photoFor("hero-3", "/admin-hero-picture.png"), label: "Fresh finish", detail: "Skin-first care" }
-  ];
   return <><header className="topbar"><a className="brand" href="#home"><img className="brand-mark" src="/kala-logo.png" alt="Kala Beauty Parlour logo" /><span>Kala <small>BEAUTY PARLOUR</small></span></a><nav><a href="#services">Services</a><a href="#story">Our story</a><a className="whatsapp-link" href={`https://wa.me/${adminNumber}`} target="_blank" rel="noreferrer"><MessageCircle size={16}/> WhatsApp</a></nav><button className="logout" onClick={() => { localStorage.removeItem("kala-session"); setSession(null); setShowLogin(true); }}>Sign out</button></header>
     <main><section id="home" className="hero"><div className="hero-copy"><p className="eyebrow"><Sparkles size={16}/> A little luxury, just for you</p><h1>Feel beautiful.<br/><em>Feel like Kala.</em></h1><p className="hero-text">Thoughtful beauty rituals, made personal. Step into a warm, welcoming space where your glow is our favourite thing.</p><a className="primary-button" href="#services">Explore our services <ArrowRight size={18}/></a></div><div className="hero-art"><div className="sun"></div><div className="carousel-window" aria-live="polite"><div className="carousel-track" style={{ transform: `translateX(-${activeSlide * 100}%)` }}>{heroSlides.map((slide) => <div className="carousel-slide" key={`${slide.label}-${slide.detail}`}><img src={slide.src} alt={slide.label} /><div className="slide-tag"><strong>{slide.label}</strong><span>{slide.detail}</span></div></div>)}</div></div><div className="carousel-dots" aria-label="Hero image carousel">{heroSlides.map((slide, index) => <button key={slide.label} type="button" className={index === activeSlide ? "dot active" : "dot"} aria-label={`Show slide ${index + 1}`} onClick={() => setActiveSlide(index)} />)}</div><div className="float-card"><span>10</span><div>years of<br/>beauty & care</div></div></div></section>
       <section id="story" className="story"><div><p className="eyebrow">The Kala touch</p><h2>Ten years of making<br/><em>everyday moments special.</em></h2></div><div className="story-copy"><p>Founded and led by Kala, our certified beautician, Kala Beauty Parlour is a calm little corner for your self-care. We believe beauty is never one-size-fits-all — it is the confidence you carry home.</p><div className="signature">Kala <span>✦</span></div></div></section>

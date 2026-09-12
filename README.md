@@ -17,18 +17,12 @@ MERN starter for Kala Beauty Parlour, with phone/password authentication, OTP ve
 
 The API runs on `http://localhost:5000` and the Vite client on `http://localhost:5173`. Keep both processes running while using the page. MongoDB is required; the API will not start without a working `MONGODB_URI`.
 
-## Build an Android APK
+## Deploy on Render
 
-The APK contains the built client, but it still connects to the deployed Express API. Deploy the API first, then create `client/.env` from `client/.env.example` and set `VITE_API_URL` to the public API URL ending in `/api`.
-
-Install Android Studio with an Android SDK and a JDK, then run:
-
-```bash
-npm run android:init
-npm run android:build
-```
-
-The debug APK is generated at `android/app/build/outputs/apk/debug/app-debug.apk`. Use `npm run android:open` to open the native project in Android Studio. For Play Store distribution, create a signed release bundle in Android Studio rather than distributing the debug APK.
+1. Create a MongoDB Atlas database and copy its connection string.
+2. In Render, choose **New > Blueprint** and select this repository. Render will use `render.yaml` to create the web service.
+3. Add the secret environment variables requested by the Blueprint, especially `MONGODB_URI`, `ADMIN_PHONE`, and `ADMIN_PASSWORD`. Add the SMTP or Twilio variables if password-reset OTP delivery is required.
+4. Deploy. The service serves the built React app and the Express API from one public URL. The health check is available at `/api/health`.
 
 ## OTP delivery
 

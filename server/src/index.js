@@ -1,6 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
@@ -14,6 +16,7 @@ import { sendOtp } from "./services/mailer.js";
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "8mb" }));
+const clientDist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../client/dist");
 
 const port = process.env.PORT || 5000;
 const adminPhone = process.env.ADMIN_PHONE || "7799553251";
@@ -192,6 +195,9 @@ app.patch("/api/bookings/:id", auth("admin"), async (req, res) => {
   if (!booking) return res.status(404).json({ message: "Booking not found" });
   res.json(booking);
 });
+
+app.use(express.static(clientDist));
+app.get("*", (_req, res) => res.sendFile(path.join(clientDist, "index.html")));
 
 async function start() {
   if (!process.env.MONGODB_URI) throw new Error("MONGODB_URI is required");
